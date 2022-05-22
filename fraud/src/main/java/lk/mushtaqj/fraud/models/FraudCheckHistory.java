@@ -1,6 +1,8 @@
-package lk.mushtaqj.customer.models;
+package lk.mushtaqj.fraud.models;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,27 +13,30 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
 @ToString
-public class Customer
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class FraudCheckHistory
 {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_sequence")
-  @SequenceGenerator(name = "customer_id_sequence", sequenceName = "customer_id_sequence")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fraud_id_sequence")
+  @SequenceGenerator(name = "fraud_id_sequence", sequenceName = "fraud_id_sequence", allocationSize = 1)
+  @Column(name = "id", nullable = false)
   private Long id;
 
-  private String firstName;
-  private String lastName;
-  private String email;
+  private Long customerId;
+  private Boolean isFraudster;
+  private LocalDateTime createdAt;
+
 
   @Override
   public boolean equals (Object o)
@@ -44,8 +49,8 @@ public class Customer
     {
       return false;
     }
-    Customer customer = (Customer) o;
-    return id != null && Objects.equals(id, customer.id);
+    FraudCheckHistory that = (FraudCheckHistory) o;
+    return id != null && Objects.equals(id, that.id);
   }
 
   @Override
