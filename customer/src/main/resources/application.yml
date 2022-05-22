@@ -8,11 +8,11 @@ spring:
     username: mushtaq
     password: ushallpass
     url: jdbc:postgresql://localhost:5432/customers
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
-        properties:
-          hibernate:
-            dialect: org.hibernate.dialect.PostgreSQLDialect
-            format_sql: true
-        show-sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
