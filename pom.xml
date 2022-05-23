@@ -11,6 +11,7 @@
     <modules>
         <module>customer</module>
         <module>fraud</module>
+        <module>eureka-server</module>
     </modules>
 
     <name>amigosservices</name>
@@ -21,10 +22,12 @@
         <maven.compiler.target>17</maven.compiler.target>
         <springboot.dependencies.version>2.5.7</springboot.dependencies.version>
         <springboot.maven.plugin.version>${springboot.dependencies.version}</springboot.maven.plugin.version>
+        <spring.cloud-version>2020.0.3</spring.cloud-version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -32,6 +35,16 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+
+            <!-- Spring cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
