@@ -1,6 +1,6 @@
 package lk.mushtaqj.fraud.controllers;
 
-import lk.mushtaqj.fraud.response.FraudCheckResponse;
+import lk.mushtaqj.customer.response.FraudCheckResponse;
 import lk.mushtaqj.fraud.services.FraudCheckHistoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,18 +1,15 @@
 package lk.mushtaqj.customer.services;
 
-import java.util.Optional;
-
+import lk.mushtaqj.clients.fraud.FraudClient;
 import lk.mushtaqj.customer.models.Customer;
 import lk.mushtaqj.customer.repositories.CustomerRepository;
 import lk.mushtaqj.customer.request.CustomerRegistrationRequest;
-import lk.mushtaqj.customer.response.FraudCheckResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-public record CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate)
+public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient)
 {
   public void registerCustomer (final CustomerRegistrationRequest request)
   {
@@ -22,17 +19,11 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
     log.info("Customer {}", customer);
     customerRepository.saveAndFlush(customer);
 
-    final Optional<FraudCheckResponse> fraudCheckResponse = Optional.ofNullable(restTemplate.getForObject(
-      "http://FRAUD/api/v1/fraud-check/{customerId}",
-      FraudCheckResponse.class,
-      customer.getId()));
+    final boolean fraudulentCustomer = fraudClient.isFraudster(customer.getId()).isFraudulentCustomer();
 
-    if (fraudCheckResponse.isPresent())
+    if (fraudulentCustomer)
     {
-      if (fraudCheckResponse.get().isFraudulentCustomer())
-      {
-        throw new IllegalStateException("Customer is a fraudster");
-      }
+      throw new IllegalStateException("Customer is a fraudster");
     }
   }
 }
