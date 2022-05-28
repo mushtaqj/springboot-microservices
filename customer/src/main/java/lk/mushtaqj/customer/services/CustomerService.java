@@ -16,15 +16,14 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
 {
   public void registerCustomer (final CustomerRegistrationRequest request)
   {
-    final var customer = Customer.builder()
-                                 .firstName(request.firstName())
-                                 .lastName(request.lastName()).email(request.email()).build();
+    final var customer =
+      Customer.builder().firstName(request.firstName()).lastName(request.lastName()).email(request.email()).build();
 
     log.info("Customer {}", customer);
     customerRepository.saveAndFlush(customer);
 
     final Optional<FraudCheckResponse> fraudCheckResponse = Optional.ofNullable(restTemplate.getForObject(
-      "http://localhost:8090/api/v1/fraud-check/{customerId}",
+      "http://FRAUD/api/v1/fraud-check/{customerId}",
       FraudCheckResponse.class,
       customer.getId()));
 
