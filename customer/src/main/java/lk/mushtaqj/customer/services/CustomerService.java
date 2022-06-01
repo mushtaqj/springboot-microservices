@@ -1,6 +1,8 @@
 package lk.mushtaqj.customer.services;
 
 import lk.mushtaqj.clients.fraud.FraudClient;
+import lk.mushtaqj.clients.notifications.NotificationClient;
+import lk.mushtaqj.clients.notifications.requests.NotificationRequest;
 import lk.mushtaqj.customer.models.Customer;
 import lk.mushtaqj.customer.repositories.CustomerRepository;
 import lk.mushtaqj.customer.request.CustomerRegistrationRequest;
@@ -9,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient)
+public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient,
+                              NotificationClient notificationClient)
 {
   public void registerCustomer (final CustomerRegistrationRequest request)
   {
@@ -25,5 +28,10 @@ public record CustomerService(CustomerRepository customerRepository, FraudClient
     {
       throw new IllegalStateException("Customer is a fraudster");
     }
+
+    final NotificationRequest notificationRequest =
+      new NotificationRequest(customer.getId(), customer.getEmail(), "Customer created successfully");
+
+    notificationClient.sendNotification(notificationRequest);
   }
 }
