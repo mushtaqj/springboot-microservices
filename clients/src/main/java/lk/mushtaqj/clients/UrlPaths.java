@@ -6,4 +6,8 @@ public interface UrlPaths
   {
     String basePath = "api/v1/notifications";
   }
+
+  interface FraudCheck {
+    String basePath = "api/v1/fraud-check";
+  }
 }
