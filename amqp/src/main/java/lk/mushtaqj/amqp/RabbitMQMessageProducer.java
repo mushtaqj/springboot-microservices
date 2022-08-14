@@ -11,7 +11,7 @@ public class RabbitMQMessageProducer
 
   private final AmqpTemplate amqpTemplate;
 
-  public RabbitMQMessageProducer (AmqpTemplate amqpTemplate) { this.amqpTemplate = amqpTemplate; }
+  public RabbitMQMessageProducer (final AmqpTemplate amqpTemplate) { this.amqpTemplate = amqpTemplate; }
 
   public void publish (Object payload, String exchangeName, String routingKey)
   {
