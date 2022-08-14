@@ -21,22 +21,22 @@ public class NotificationConfig
   private String internalNotificationRoutingKey;
 
   @Bean
-  public TopicExchange topicExchange(){
+  public TopicExchange topicExchange ()
+  {
     return new TopicExchange(this.exchangeName);
   }
 
   @Bean
-  public Queue notificationQueue(){
+  public Queue notificationQueue ()
+  {
     return new Queue(this.notificationQueueName);
   }
 
   @Bean
-  public Binding exchangeToQueueBinding(final TopicExchange topicExchange,
-                                        final Queue notificationQueue){
+  public Binding exchangeToQueueBinding (final TopicExchange topicExchange, final Queue notificationQueue)
+  {
 
-    return BindingBuilder.bind(notificationQueue)
-                         .to(topicExchange)
-                         .with(this.internalNotificationRoutingKey);
+    return BindingBuilder.bind(notificationQueue).to(topicExchange).with(this.internalNotificationRoutingKey);
   }
 
   public String getExchangeName ()
